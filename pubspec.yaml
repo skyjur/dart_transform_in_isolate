@@ -1,0 +1,12 @@
+name: transform_in_isolate
+version: 0.1.0
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+description: Run stream transformer in isolate.
+author: Ski <skyjur@gmail.com>
+repository: https://github.com:skyjur/dart_transform_in_isolate
+issue_tracker: https://github.com/skyjur/dart_transform_in_isolate/issues
+homepage: https://github.com:skyjur/dart_transform_in_isolate
+dependencies:
+dev_dependencies:
+  test:
