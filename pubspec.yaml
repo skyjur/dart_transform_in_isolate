@@ -1,8 +1,15 @@
 name: transform_in_isolate
-version: 0.1.0
+version: 0.1.1
 environment:
   sdk: ">=2.5.0 <3.0.0"
-description: Run stream transformer in isolate.
+description: Run stream transfor in isolate.
+
+  Spawns new isolate when bind() method is called on isolate.
+
+  Instance of transformer is then sent to isolate.
+
+  Initial state within transformer as well as stream messages must
+  be isolate-transferable.
 author: Ski <skyjur@gmail.com>
 repository: https://github.com/skyjur/dart_transform_in_isolate
 issue_tracker: https://github.com/skyjur/dart_transform_in_isolate/issues

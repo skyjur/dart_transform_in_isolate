@@ -1,15 +1,19 @@
 import 'dart:async';
 import 'dart:isolate';
 
+/// Spawn isolate and run stream transformation in it
 class TransformInIsolate<Input, Output>
     extends StreamTransformerBase<Input, Output> {
   TransformInIsolate(this.transformer);
 
-  final _receivePort = ReceivePort();
-  final _isolateCompleter = Completer<Isolate>();
+  /// Instance of transformer that will be sent to isolate
   final StreamTransformer<Input, Output> transformer;
 
+  /// Instance of spawned isolate
   Future<Isolate> get isolate => _isolateCompleter.future;
+
+  final _receivePort = ReceivePort();
+  final _isolateCompleter = Completer<Isolate>();
 
   @override
   bind(Stream<Input> input) {
