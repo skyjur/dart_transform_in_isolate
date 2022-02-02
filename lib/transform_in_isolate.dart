@@ -17,7 +17,7 @@ class TransformInIsolate<Input, Output>
 
   @override
   bind(Stream<Input> input) {
-    StreamSubscription inputSub;
+    StreamSubscription? inputSub;
     final outputController = StreamController<Output>(onCancel: () {
       inputSub?.cancel();
       _receivePort.close();
@@ -27,14 +27,14 @@ class TransformInIsolate<Input, Output>
     });
 
     _spawnIsolate(onError: (error) {
-      outputController.addError(error);
+      outputController.addError(error as Object);
     });
 
     _receivePort.listen((msg) {
       if (msg is _MsgValue) {
         outputController.add(msg.value as Output);
       } else if (msg is _MsgError) {
-        outputController.addError(msg.error);
+        outputController.addError(msg.error as Object);
       } else if (msg is _MsgInitHost) {
         final sendPort = msg.sendPort;
         inputSub = input.listen((data) {
@@ -57,7 +57,7 @@ class TransformInIsolate<Input, Output>
     return outputController.stream;
   }
 
-  _spawnIsolate({void Function(dynamic error) onError}) async {
+  _spawnIsolate({void Function(dynamic error)? onError}) async {
     final isolate = await Isolate.spawn(
         _transformInIsolateMain,
         _MsgInitIsolate(_receivePort.sendPort,
@@ -66,7 +66,7 @@ class TransformInIsolate<Input, Output>
     final errors = ReceivePort();
     final exit = ReceivePort();
 
-    errors.listen((error) => onError(Exception((error as List).join('\n'))));
+    errors.listen((error) => onError!(Exception((error as List).join('\n'))));
     exit.listen((_) {
       exit.close();
       errors.close();
@@ -91,7 +91,7 @@ _transformInIsolateMain(_MsgInitIsolate init) async {
     if (msg is _MsgValue) {
       input.add(msg.value);
     } else if (msg is _MsgError) {
-      input.addError(msg.error);
+      input.addError(msg.error as Object);
     } else if (msg == _MsgEnd) {
       input.close();
     } else {

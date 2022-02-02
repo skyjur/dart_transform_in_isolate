@@ -1,5 +1,4 @@
 @Timeout(const Duration(seconds: 1))
-
 import 'dart:async';
 import 'dart:isolate';
 
@@ -8,11 +7,11 @@ import 'package:transform_in_isolate/transform_in_isolate.dart';
 
 void main() {
   group("streamTransformerAsIsolate", () {
-    Completer<void> testRun;
-    ReceivePort report;
-    Future exit;
-    TransformInIsolate transform;
-    StreamController input;
+    late Completer<void> testRun;
+    late ReceivePort report;
+    late Future exit;
+    late TransformInIsolate transform;
+    late StreamController input;
 
     setUp(() {
       testRun = Completer();
